@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="sr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DayDate Events | Elitna Organizacija i Produkcija Događaja</title>
+    
+    <link rel="icon" type="image/x-icon" href="logokrug.ico">
+
+    <!-- Google Fonts: Playfair Display for Serifs & Plus Jakarta Sans for Modern feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js for flawless lightweight interactivity -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Tailwind Config for Custom Theme & Font Families -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        gold: {
+                            50: '#fbf8ed',
+                            100: '#f5edd1',
+                            200: '#eadaa3',
+                            300: '#ddc26f',
+                            400: '#d1a43f',
+                            500: '#bc8c32', // Warm signature gold
+                            600: '#a37127',
+                            700: '#835420',
+                            800: '#6a431f',
+                            900: '#57371d',
+                            950: '#321d0e',
+                        },
+                        obsidian: {
+                            50: '#f6f6f6',
+                            100: '#e7e7e7',
+                            200: '#d1d1d1',
+                            300: '#b0b0b0',
+                            400: '#888888',
+                            500: '#6d6d6d',
+                            600: '#5d5d5d',
+                            700: '#4f4f4f',
+                            800: '#1b1b1a', // Rich dark bronze-black
+                            900: '#121211', // Deep dark
+                            950: '#0c0c0b', // True obsidian black
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        /* Custom scrollbar to keep layout premium */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c0c0b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2c2c2a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bc8c32;
+        }
+    </style>
+</head>
+<body class="bg-obsidian-950 text-stone-100 font-sans antialiased overflow-x-hidden" x-data="{ mobileMenu: false }">
+
+    <!-- NAVIGATION HEADER -->
+    <header <header class="fixed top-0 left-0 w-full z-50 bg-obsidian-950 border-b border-white/5 py-4">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#home" class="flex flex-col">
+                <span class="text-xl md:text-2xl font-semibold tracking-[0.2em] text-white">DAYDATE</span>
+                <span class="text-[9px] uppercase tracking-[0.55em] text-gold-500 font-semibold -mt-1">EVENTS &amp; PRODUCTION</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] font-medium text-stone-300">
+                <a href="#o-nama" class="hover:text-gold-500 transition-colors">O nama</a>
+                <a href="#usluge" class="hover:text-gold-500 transition-colors">Usluge</a>
+                <a href="#portfolio" class="hover:text-gold-500 transition-colors">Portfolio</a>
+                <a href="#kalkulator" class="hover:text-gold-500 transition-colors">Planer Budžeta</a>
+                <a href="#kontakt" class="hover:text-gold-500 transition-colors">Kontakt</a>
+            </nav>
+
+            <!-- Call to Action button (Desktop) -->
+            <div class="hidden lg:block">
+                <a href="#kontakt" class="relative group overflow-hidden border border-gold-500/30 px-6 py-3 text-xs uppercase tracking-[0.2em] font-semibold text-white transition-all">
+                    <span class="absolute inset-0 bg-gold-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+                    <span class="relative z-10 group-hover:text-obsidian-950 transition-colors duration-300">Zakaži Sastanak</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button @click="mobileMenu = !mobileMenu" class="lg:hidden text-white hover:text-gold-500 transition-colors focus:outline-none" aria-label="Toggle Menu">
+                <svg x-show="!mobileMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                <svg x-show="mobileMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-cloak><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div x-show="mobileMenu" 
+             x-transition:enter="transition ease-out duration-300 transform" 
+             x-transition:enter-start="-translate-y-full opacity-0" 
+             x-transition:enter-end="translate-y-0 opacity-100" 
+             x-transition:leave="transition ease-in duration-200 transform" 
+             x-transition:leave-start="translate-y-0 opacity-100" 
+             x-transition:leave-end="-translate-y-full opacity-0" 
+             class="absolute top-full left-0 w-full bg-obsidian-900 border-b border-white/5 py-8 px-6 flex flex-col space-y-6 text-sm uppercase tracking-wider font-medium lg:hidden"
+             x-cloak>
+            <a @click="mobileMenu = false" href="#o-nama" class="hover:text-gold-500 transition-colors">O nama</a>
+            <a @click="mobileMenu = false" href="#usluge" class="hover:text-gold-500 transition-colors">Usluge</a>
+            <a @click="mobileMenu = false" href="#portfolio" class="hover:text-gold-500 transition-colors">Portfolio</a>
+            <a @click="mobileMenu = false" href="#kalkulator" class="hover:text-gold-500 transition-colors">Planer Budžeta</a>
+            <a @click="mobileMenu = false" href="#kontakt" class="bg-gold-500 text-obsidian-950 px-5 py-3 text-center rounded font-semibold">Zakaži Sastanak</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-obsidian-800 via-obsidian-950 to-black overflow-hidden pt-20">
+        
+        <!-- Light Grid Overlay / Minimalist elements -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full grid lg:grid-cols-12 gap-12 items-center relative z-10 py-12">
+            
+            <!-- Left Narrative -->
+            <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                <div class="inline-flex items-center space-x-3 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs tracking-widest uppercase text-gold-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
+                    <span>Agencija Za Organizaciju Događaja</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1]">
+                    Donosimo nove ideje i nove koncepte<span class="font-serif italic text-gold-500 block sm:inline"><br>DayDate Events</span>
+                </h1>
+                
+                <p class="text-stone-400 text-base sm:text-lg md:text-xl font-light max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                    Za korporativne sisteme, brendove i vizionare koji ne prepuštaju ništa slučaju. Kompletan krizni menadžment, besprekorna logistika i vrhunska tehnička realizacija.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4 pt-4">
+                    <a href="#kontakt" class="w-full sm:w-auto bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-obsidian-950 px-8 py-4 rounded-none font-bold text-xs uppercase tracking-[0.2em] shadow-lg shadow-gold-500/10 hover:shadow-gold-500/20 transition-all duration-300 text-center">
+                        Zakaži Besplatne Konsultacije
+                    </a>
+                    <a href="#kalkulator" class="w-full sm:w-auto border border-white/10 hover:border-gold-500/40 hover:bg-white/5 text-white px-8 py-4 rounded-none font-bold text-xs uppercase tracking-[0.2em] transition-all duration-300 text-center">
+                        Izračunaj Budžet Proslave
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Visual (Showcase Element) -->
+            <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+                <div class="relative w-full aspect-[4/5] bg-obsidian-900 border border-white/10 p-4 group">
+                    <div class="absolute inset-0 border border-gold-500/20 translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-all duration-500 -z-10"></div>
+                    
+                    <div class="w-full h-full overflow-hidden bg-obsidian-950 relative">
+                        <img src="dj.jpg" 
+                             alt="Luxury event lighting setup" 
+                             class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
+                        
+                        <!-- Floating Glassmorphism Tag -->
+                        <div class="absolute bottom-6 left-6 right-6 bg-obsidian-900/80 backdrop-blur-md border border-white/10 p-5 text-left">
+                            <h4 class="font-serif text-white text-lg">Nemanja Velemir</h4>
+                            <p class="text-gold-500 text-xs uppercase tracking-wider mt-1">Event Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KEY STATS (CREDIBILITY) -->
+    <section class="py-16 bg-obsidian-900 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                <div class="text-center md:text-left border-r border-white/5 last:border-none pr-4">
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-light text-gold-500 font-serif">150+</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-stone-400 mt-2">Realizovanih Projekata</div>
+                </div>
+                <div class="text-center md:text-left border-r border-white/5 last:border-none pr-4">
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-light text-gold-500 font-serif">100%</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-stone-400 mt-2">Uspešnost</div>
+                </div>
+                <div class="text-center md:text-left border-r border-white/5 last:border-none pr-4">
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-light text-gold-500 font-serif">8</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-stone-400 mt-2">Godina Iskustva</div>
+                </div>
+                <div class="text-center md:text-left last:border-none">
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-light text-gold-500 font-serif">9000+</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-stone-400 mt-2">Gostiju</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY / O NAMA -->
+    <section id="o-nama" class="py-24 max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="grid lg:grid-cols-12 gap-16 items-center">
+            
+            <div class="lg:col-span-5 relative">
+                <!-- Stacked artistic composition -->
+                <div class="relative w-full aspect-[4/5] bg-obsidian-900 border border-white/10 p-3">
+                    <img src="team.jpeg" 
+                         alt="Luxury table candle setup" 
+                         class="w-full h-full object-cover brightness-90">
+                </div>
+                <!-- Mini overlay image -->
+                <div class="absolute -bottom-10 -right-10 w-2/3 aspect-video bg-obsidian-950 border border-white/10 p-2 hidden sm:block">
+                    <img src="ddevents.png" 
+                         alt="Sound check" 
+                         class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-8">
+                <span class="text-gold-500 text-xs font-semibold uppercase tracking-[0.3em] block">Ključna Razlika</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-light font-serif tracking-tight text-white leading-tight">
+                    Zašto Najuspešnije Kompanije Biraju <span class="italic text-gold-500">DayDate Events</span>?
+                </h2>
+                <div class="h-1 w-20 bg-gold-500"></div>
+                <p class="text-stone-400 text-lg font-light leading-relaxed">
+                    Za nas, događaj nije puka koordinacija dobavljača. To je kreiranje kontrolisane atmosfere gde se svaki rizik minimizira kroz sate planiranja, a gostima stvara emocionalni doživljaj vredan pamćenja.
+                </p>
+                
+                <div class="grid sm:grid-cols-2 gap-6 pt-4">
+                    <div class="flex space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-500">
+                            <i class="fa-solid fa-shield-halved text-sm"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-white text-base">Planiranje sa Rezervom (Redundancy)</h4>
+                            <p class="text-stone-400 text-xs mt-1">Uvek posedujemo rezervni energetski, audio i operativni plan B.</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-500">
+                            <i class="fa-solid fa-network-wired text-sm"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-white text-base">Ekskluzivna Mreža Dobavljača</h4>
+                            <p class="text-stone-400 text-xs mt-1">Direktan pristup najboljim ugostiteljima, scenskoj tehnici i umetnicima na našim prostorima.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CORE SERVICES -->
+    <section id="usluge" class="py-24 bg-obsidian-900 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            
+            <div class="text-center max-w-2xl mx-auto mb-20 space-y-4">
+                <span class="text-gold-500 text-xs uppercase tracking-[0.3em] font-semibold">Usluge Najvišeg Standarda</span>
+                <h2 class="text-3xl md:text-5xl font-light font-serif text-white">Nivoi Naše Podrške</h2>
+                <p class="text-stone-400 font-light">Bilo da vam treba samo stručni tim za koordinaciju ili kompletno "ključ u ruke" rešenje sa audio-vizuelnom produkcijom.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Service 1 -->
+                <div class="bg-obsidian-950 p-10 border border-white/5 hover:border-gold-500/30 transition-all duration-500 group flex flex-col justify-between min-h-[420px]">
+                    <div class="space-y-6">
+                        <div class="w-12 h-12 border border-gold-500/20 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-all duration-500">
+                            <i class="fa-solid fa-briefcase text-lg"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif text-white">Korporativni Događaji</h3>
+                        <p class="text-stone-400 text-sm font-light leading-relaxed">
+                            Simpozijumi, otvaranja novih fabrika, proslave i lansiranja proizvoda. Prezentacija vašeg brenda na nivou koji zaslužuje.
+                        </p>
+                    </div>
+                    <a href="#kontakt" class="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-gold-400 hover:text-gold-300 transition-colors pt-6">
+                        <span>Saznajte više</span>
+                        <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-obsidian-950 p-10 border border-white/5 hover:border-gold-500/30 transition-all duration-500 group flex flex-col justify-between min-h-[420px]">
+                    <div class="space-y-6">
+                        <div class="w-12 h-12 border border-gold-500/20 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-all duration-500">
+                            <i class="fa-solid fa-glass-cheers text-lg"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif text-white">Privatne Proslave</h3>
+                        <p class="text-stone-400 text-sm font-light leading-relaxed">
+                            Kompletno planiranje luksuznih venčanja i rođendana u zemlji i inostranstvu. Vrhunski catering, dekoracija, i potpuna diskrecija gostiju.
+                        </p>
+                    </div>
+                    <a href="#kontakt" class="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-gold-400 hover:text-gold-300 transition-colors pt-6">
+                        <span>Saznajte više</span>
+                        <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-obsidian-950 p-10 border border-white/5 hover:border-gold-500/30 transition-all duration-500 group flex flex-col justify-between min-h-[420px]">
+                    <div class="space-y-6">
+                        <div class="w-12 h-12 border border-gold-500/20 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-all duration-500">
+                            <i class="fa-solid fa-volume-high text-lg"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif text-white">Muzička &amp; AV Produkcija</h3>
+                        <p class="text-stone-400 text-sm font-light leading-relaxed">
+                            Unikatni scenski i svetlosni dizajn, razglasni sistemi vrhunskog kvaliteta i menadžment bukinga vodećih regionalnih i stranih umetnika.
+                        </p>
+                    </div>
+                    <a href="#kontakt" class="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-gold-400 hover:text-gold-300 transition-colors pt-6">
+                        <span>Saznajte više</span>
+                        <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE PORTFOLIO (WITH CATEGORY FILTERS) -->
+    <section id="portfolio" class="py-24 max-w-7xl mx-auto px-6 lg:px-12" x-data="{ currentTab: 'svi' }">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div class="space-y-4">
+                <span class="text-gold-500 text-xs uppercase tracking-[0.3em] font-semibold">Prethodni Podvizi</span>
+                <h2 class="text-3xl md:text-5xl font-light font-serif text-white">Naš Rad Govori</h2>
+            </div>
+            
+            <!-- Tab Filters -->
+            <div class="flex flex-wrap gap-2 border-b border-white/5 pb-2 md:pb-0">
+                <button @click="currentTab = 'svi'" :class="currentTab === 'svi' ? 'text-gold-500 border-gold-500 font-semibold' : 'text-stone-400 border-transparent'" class="px-4 py-2 text-xs uppercase tracking-wider border-b-2 transition-all duration-300">Sve</button>
+                <button @click="currentTab = 'korp'" :class="currentTab === 'korp' ? 'text-gold-500 border-gold-500 font-semibold' : 'text-stone-400 border-transparent'" class="px-4 py-2 text-xs uppercase tracking-wider border-b-2 transition-all duration-300">Korporativni</button>
+                <button @click="currentTab = 'privatni'" :class="currentTab === 'privatni' ? 'text-gold-500 border-gold-500 font-semibold' : 'text-stone-400 border-transparent'" class="px-4 py-2 text-xs uppercase tracking-wider border-b-2 transition-all duration-300">Privatne Proslave</button>
+                <button @click="currentTab = 'av'" :class="currentTab === 'av' ? 'text-gold-500 border-gold-500 font-semibold' : 'text-stone-400 border-transparent'" class="px-4 py-2 text-xs uppercase tracking-wider border-b-2 transition-all duration-300">Tehnička Produkcija</button>
+            </div>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Item 1 (Korp) -->
+            <div x-show="currentTab === 'svi' || currentTab === 'korp'" x-transition class="bg-obsidian-900 border border-white/5 relative group overflow-hidden">
+                <div class="aspect-video w-full overflow-hidden">
+                    <img src="youmart.jpg" alt="Corporate" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                </div>
+                <div class="p-6">
+                    <span class="text-gold-500 text-[10px] uppercase tracking-widest font-semibold">Korporativni događaji</span>
+                    <h4 class="text-xl font-serif text-white mt-1">Otvaranje Kineske robne kuće</h4>
+                    <p class="text-stone-400 text-xs mt-2 leading-relaxed">Organizacija i tehnička podrška</p>
+                </div>
+            </div>
+
+            <!-- Item 2 (Privatni) -->
+            <div x-show="currentTab === 'svi' || currentTab === 'av'" x-transition class="bg-obsidian-900 border border-white/5 relative group overflow-hidden" x-cloak>
+                <div class="aspect-video w-full overflow-hidden">
+                    <img src="turnir.jpg" alt="Luxury wedding setup" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                </div>
+                <div class="p-6">
+                    <span class="text-gold-500 text-[10px] uppercase tracking-widest font-semibold">Sportski događaji</span>
+                    <h4 class="text-xl font-serif text-white mt-1">Turnir u malom fudbalu</h4>
+                    <p class="text-stone-400 text-xs mt-2 leading-relaxed">Tehnička podrška, organizacija i vođenje programa</p>
+                </div>
+            </div>
+
+            <!-- Item 3 (AV) -->
+            <div x-show="currentTab === 'svi' || currentTab === 'av'" x-transition class="bg-obsidian-900 border border-white/5 relative group overflow-hidden" x-cloak>
+                <div class="aspect-video w-full overflow-hidden">
+                    <img src="moto.jpg" alt="Stage Production" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                </div>
+                <div class="p-6">
+                    <span class="text-gold-500 text-[10px] uppercase tracking-widest font-semibold">Javni događaj</span>
+                    <h4 class="text-xl font-serif text-white mt-1">Moto skup</h4>
+                    <p class="text-stone-400 text-xs mt-2 leading-relaxed">Techno Stage, realizacija i program</p>
+                </div>
+            </div>
+
+            <!-- Item 4 (Korp) -->
+            <div x-show="currentTab === 'svi' || currentTab === 'korp'" x-transition class="bg-obsidian-900 border border-white/5 relative group overflow-hidden" x-cloak>
+                <div class="aspect-video w-full overflow-hidden">
+                    <img src="inter.jpg" alt="Dinner corporate gala" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                </div>
+                <div class="p-6">
+                    <span class="text-gold-500 text-[10px] uppercase tracking-widest font-semibold">Korporativni događaji</span>
+                    <h4 class="text-xl font-serif text-white mt-1">Promocija proizvoda Interkomerc d.o.o.</h4>
+                    <p class="text-stone-400 text-xs mt-2 leading-relaxed">Tehnička realizacija i organizacija</p>
+                </div>
+            </div>
+
+            <!-- Item 5 (Privatni) -->
+            <div x-show="currentTab === 'svi' || currentTab === 'privatni'" x-transition class="bg-obsidian-900 border border-white/5 relative group overflow-hidden" x-cloak>
+                <div class="aspect-video w-full overflow-hidden">
+                    <img src="rodj.jpg" alt="Elegant private setup" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                </div>
+                <div class="p-6">
+                    <span class="text-gold-500 text-[10px] uppercase tracking-widest font-semibold">Privatna proslava</span>
+                    <h4 class="text-xl font-serif text-white mt-1">18. rođendan</h4>
+                    <p class="text-stone-400 text-xs mt-2 leading-relaxed">Audio-vizuelna rješenja i organizacija</p>
+                </div>
+            </div>
+
+            <!-- Item 6 (AV) -->
+            <div x-show="currentTab === 'svi' || currentTab === 'av'" x-transition class="bg-obsidian-900 border border-white/5 relative group overflow-hidden" x-cloak>
+                <div class="aspect-video w-full overflow-hidden">
+                    <img src="trg.jpg" alt="Wedding lighting" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                </div>
+                <div class="p-6">
+                    <span class="text-gold-500 text-[10px] uppercase tracking-widest font-semibold">Javni događaji</span>
+                    <h4 class="text-xl font-serif text-white mt-1">Novogodišnji program na trgu</h4>
+                    <p class="text-stone-400 text-xs mt-2 leading-relaxed">Tehnička realizacija i planiranje programa</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PREMIUM INTERACTIVE BUDGET / EVENT PLANNER TOOL -->
+    <section id="kalkulator" class="py-24 bg-obsidian-900 border-y border-white/5">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12" 
+             x-data="{ 
+                eventType: 'korporativni',
+                guests: 20,
+                techPack: 'standard',
+                catering: false,
+                decor: 'premium',
+                calculateTotal() {
+                    let base = 100; // Agencijski fiksni rad
+                    
+                    // Event type multipliers
+                    if (this.eventType === 'priv') base +=400;
+                    if (this.eventType === 'av') base +=200;
+
+                    // Guest count pricing (scaled)
+                    base += (this.guests * 5);
+
+                    // Technical Packages
+                    if (this.techPack === 'premium') base += 500;
+                    if (this.techPack === 'masterclass') base += 1000;
+
+                    // Extras
+                    if (this.catering) base += (this.guests * 5); // catering cost per head
+                    if (this.decor === 'premium') base += 0;
+                    if (this.decor === 'luksuzna') base += 1000;
+
+                    return base;
+                }
+             }">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <span class="text-gold-500 text-xs uppercase tracking-[0.3em] font-semibold">Transparentno Planiranje</span>
+                <h2 class="text-3xl md:text-5xl font-light font-serif text-white">Interaktivni Planer Budžeta</h2>
+                <p class="text-stone-400 font-light">Kreirajte osnovne zahteve vašeg događaja i odmah dobićete aproksimativnu procenu troškova realizacije.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12 bg-obsidian-950 p-8 sm:p-12 border border-white/5 rounded-none relative">
+                <!-- Highlight line -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-500 to-gold-700"></div>
+
+                <!-- Left Column - Selections -->
+                <div class="lg:col-span-7 space-y-8">
+                    
+                    <!-- Event Type -->
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gold-500 font-semibold mb-3">1. Tip Događaja</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button @click="eventType = 'korporativni'" :class="eventType === 'korporativni' ? 'border-gold-500 bg-gold-500/5 text-white' : 'border-white/5 text-stone-400 hover:border-white/10'" class="border p-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300">Privatne proslave</button>
+                            <button @click="eventType = 'priv'" :class="eventType === 'priv' ? 'border-gold-500 bg-gold-500/5 text-white' : 'border-white/5 text-stone-400 hover:border-white/10'" class="border p-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300">Korporativni</button>
+                            <button @click="eventType = 'av'" :class="eventType === 'av' ? 'border-gold-500 bg-gold-500/5 text-white' : 'border-white/5 text-stone-400 hover:border-white/10'" class="border p-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300">Muzički događaji</button>
+                        </div>
+                    </div>
+
+                    <!-- Guest Slider -->
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="block text-xs uppercase tracking-wider text-gold-500 font-semibold">2. Broj Gostiju</label>
+                            <span class="text-white text-lg font-serif font-semibold" x-text="guests"></span>
+                        </div>
+                        <input type="range" min="20" max="1000" step="10" x-model="guests" class="w-full h-1 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-gold-500">
+                        <div class="flex justify-between text-[10px] text-stone-500 mt-1">
+                            <span>Min: 20</span>
+                            <span>Max: 1000+</span>
+                        </div>
+                    </div>
+
+                    <!-- Tech Package -->
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gold-500 font-semibold mb-3">3. Usluge</label>
+                        <select x-model="techPack" class="w-full bg-obsidian-900 border border-white/5 p-4 text-sm text-stone-300 focus:outline-none focus:border-gold-500/40">
+                            <option value="standard">Basic: Planiranje i organizacija</option>
+                            <option value="premium">Advanced: Basic + tehnička realizacija</option>
+                            <option value="masterclass">Pro: Advanced + marketing i poslovanje</option>
+                        </select>
+                    </div>
+
+                    <!-- Extras (Checkbox / Radios) -->
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gold-500 font-semibold mb-3">4. Program</label>
+                            <div class="flex items-center space-x-3">
+                                <input type="checkbox" id="catering" x-model="catering" class="w-4 h-4 bg-stone-800 border-stone-700 text-gold-500 focus:ring-0 focus:ring-offset-0 rounded cursor-pointer">
+                                <label for="catering" class="text-sm text-stone-300 cursor-pointer">Muzički program</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gold-500 font-semibold mb-3">5. Dizajn</label>
+                            <div class="flex space-x-4">
+                                <label class="inline-flex items-center space-x-2 text-sm text-stone-300 cursor-pointer">
+                                    <input type="radio" name="decor" value="premium" x-model="decor" class="text-gold-500 focus:ring-0">
+                                    <span>Osnovni dizajn</span>
+                                </label>
+                                <label class="inline-flex items-center space-x-2 text-sm text-stone-300 cursor-pointer">
+                                    <input type="radio" name="decor" value="luksuzna" x-model="decor" class="text-gold-500 focus:ring-0">
+                                    <span>Napredna tehnička rešenja</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column - Total & Action -->
+                <div class="lg:col-span-5 bg-obsidian-900 p-8 border border-white/5 flex flex-col justify-between text-center lg:text-left">
+                    <div class="space-y-6">
+                        <span class="text-[10px] uppercase tracking-[0.25em] text-stone-400 block font-semibold">Procenjeni Budžet</span>
+                        <div class="text-4xl md:text-5xl font-light text-gold-500 font-serif leading-none">
+                            ~ €<span x-text="calculateTotal().toLocaleString()"></span>
+                        </div>
+                        <p class="text-stone-400 text-xs font-light leading-relaxed">
+                            Cena obuhvata kompletan menadžment, obezbeđenje, osiguranje i logistiku do datuma izvođenja. Ovo je informativna procena koja podleže finalnom projektu.
+                        </p>
+                    </div>
+
+                    <div class="pt-8 border-t border-white/5 space-y-4">
+                        <a href="#kontakt" class="block w-full bg-gold-500 hover:bg-gold-600 text-obsidian-950 font-bold text-xs uppercase tracking-[0.15em] py-4 text-center transition-all duration-300">
+                            Zaključaj ovaj projekat
+                        </a>
+                        <p class="text-[9px] text-stone-500 uppercase tracking-widest">Garantovano fiksne cene nakon potpisivanja ugovora</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-24 max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="grid lg:grid-cols-3 gap-12 items-start">
+            
+            <div class="space-y-6 lg:sticky lg:top-32">
+                <span class="text-gold-500 text-xs uppercase tracking-[0.3em] font-semibold">Predstojeći projekti</span>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-light font-serif text-white">Projekti kojima smo trenutno posvećeni</h2>
+                <p class="text-stone-400 font-light text-sm leading-relaxed">
+                    Privatnost i kvalitet su nam prioritet. Radimo sa korporativnim partnerima, tehnološkim startupima, kao i prestižnim manifestacijama.
+                </p>
+            </div>
+
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Quote 1 -->
+                <div class="bg-obsidian-900 p-8 border border-white/5 relative">
+                    <div class="absolute -top-4 left-6 text-gold-500/25 text-6xl font-serif"></div>
+                    <p class="text-stone-300 italic text-sm leading-relaxed relative z-10 font-light">
+                        Tehnička podrška i organizaciji tematske žurke u saradnji sa Shootiranje NS
+                        <br>Datum: 19.7.2026.
+                    </p>
+                    <div class="mt-6 flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center text-gold-500 font-bold text-xs">SN</div>
+                        <div>
+                            <h5 class="text-white text-xs font-semibold uppercase tracking-wider">Shootiranje NS</h5>
+                            <p class="text-stone-500 text-[10px]">Cocktail bar i noćni klub</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quote 2 -->
+                <div class="bg-obsidian-900 p-8 border border-white/5 relative">
+                    <div class="absolute -top-4 left-6 text-gold-500/25 text-6xl font-serif"></div>
+                    <p class="text-stone-300 italic text-sm leading-relaxed relative z-10 font-light">
+                        Organizacija turnira u malom fudbalu Taš Novo Naselje
+                        <br>Datum: 25.7.2026.
+                    </p>
+                    <div class="mt-6 flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center text-gold-500 font-bold text-xs">SU</div>
+                        <div>
+                            <h5 class="text-white text-xs font-semibold uppercase tracking-wider">SU Novo Naselje</h5>
+                            <p class="text-stone-500 text-[10px]">SPortsko udruženje</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PREMIUM INQUIRY FORM (KONTAKT) -->
+    <section id="kontakt" class="py-24 bg-obsidian-900 border-t border-white/5 relative overflow-hidden">
+        
+        <!-- Glowing gradient corner -->
+        <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gold-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-16 relative z-10">
+            
+            <!-- Contact info / Text -->
+            <div class="lg:col-span-5 space-y-8">
+                <span class="text-gold-500 text-xs uppercase tracking-[0.3em] font-semibold">Započnite Proces</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-light font-serif text-white">Razgovarajmo o Vašem Događaju</h2>
+                <p class="text-stone-400 font-light leading-relaxed">
+                    Bilo da je reč o detaljno planiranom korporativnom projektu ili privatnoj proslavi sa intimnim krugom prijatelja, naš stručni tim je tu da sprovede viziju u realnost.
+                </p>
+
+                <div class="space-y-6 pt-4 text-sm text-stone-300">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 border border-white/10 flex items-center justify-center text-gold-500">
+                            <i class="fa-solid fa-map-pin"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-xs uppercase tracking-wider text-stone-500">Glavna Kancelarija</h5>
+                            <p class="font-medium">Ilije Ognjanovića 26, Novi Sad</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 border border-white/10 flex items-center justify-center text-gold-500">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-xs uppercase tracking-wider text-stone-500">Telefon / WhatsApp</h5>
+                            <p class="font-medium">+381 62 822 9380</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 border border-white/10 flex items-center justify-center text-gold-500">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-xs uppercase tracking-wider text-stone-500">Email za Klijente</h5>
+                            <p class="font-medium">daydateproduction@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sleek Form -->
+            <div class="lg:col-span-7 bg-obsidian-950 p-8 sm:p-12 border border-white/5">
+                <form class="space-y-6">
+                    
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-stone-400 mb-2 font-semibold">Ime i Prezime / Kompanija</label>
+                            <input type="text" required class="w-full bg-obsidian-900 border border-white/5 rounded-none p-4 text-white focus:outline-none focus:border-gold-500/50 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-stone-400 mb-2 font-semibold">Kontakt Email</label>
+                            <input type="email" required class="w-full bg-obsidian-900 border border-white/5 rounded-none p-4 text-white focus:outline-none focus:border-gold-500/50 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-stone-400 mb-2 font-semibold">Planirani Datum</label>
+                            <input type="date" class="w-full bg-obsidian-900 border border-white/5 rounded-none p-4 text-stone-300 focus:outline-none focus:border-gold-500/50 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-stone-400 mb-2 font-semibold">Tip Događaja</label>
+                            <select class="w-full bg-obsidian-900 border border-white/5 rounded-none p-4 text-stone-300 focus:outline-none focus:border-gold-500/50 transition">
+                                <option>Korporativni event</option>
+                                <option>Muzički event</option>
+                                <option>Privatna proslava</option>
+                                <option>Drugo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-stone-400 mb-2 font-semibold font-semibold">Detaljni Opis &amp; Specijalni Zahtevi</label>
+                        <textarea rows="4" placeholder="Okviran broj zvanica, vizija, budžetski opseg..." class="w-full bg-obsidian-900 border border-white/5 rounded-none p-4 text-white placeholder-stone-600 focus:outline-none focus:border-gold-500/50 transition"></textarea>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" required id="consent" class="w-4 h-4 bg-obsidian-900 border-white/5 text-gold-500 focus:ring-0 rounded cursor-pointer">
+                        <label for="consent" class="text-xs text-stone-500 cursor-pointer">Saglasan sam sa uslovima čuvanja privatnosti podataka za VIP klijente.</label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-obsidian-950 font-bold text-xs uppercase tracking-[0.2em] py-5 shadow-lg shadow-gold-500/10 transition-all duration-300">
+                        Pošaljite Upit za Saradnju
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-obsidian-950 py-12 border-t border-white/5 text-xs text-stone-500 tracking-wider">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex flex-col items-center md:items-start">
+                <span class="text-white font-semibold tracking-widest text-lg">DAYDATE EVENTS</span>
+                <span class="text-[9px] uppercase tracking-[0.4em] text-gold-500">Premium Event Management &amp; Production</span>
+            </div>
+
+            <div class="flex space-x-8 text-[10px] uppercase">
+                <a href="#o-nama" class="hover:text-gold-500 transition-colors">O nama</a>
+                <a href="#usluge" class="hover:text-gold-500 transition-colors">Usluge</a>
+                <a href="#portfolio" class="hover:text-gold-500 transition-colors">Portfolio</a>
+                <a href="#kontakt" class="hover:text-gold-500 transition-colors">Kontakt</a>
+            </div>
+
+            <div class="text-[10px] text-stone-600 text-center md:text-right">
+                &copy; 2026 DAYDATE EVENTS. Sva prava zadržana. <br>
+                Designed for high-performance event operations.
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>
